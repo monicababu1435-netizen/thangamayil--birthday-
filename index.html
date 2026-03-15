@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday Surya ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* sections */
+
+.section{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:30px;
+}
+
+/* card */
+
+.card{
+background:rgba(255,255,255,0.18);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:20px;
+max-width:360px;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* title */
+
+.title{
+font-family:'Great Vibes';
+font-size:42px;
+}
+
+/* button */
+
+button{
+padding:12px 24px;
+border:none;
+border-radius:30px;
+background:#ff4d6d;
+color:white;
+font-size:16px;
+margin-top:12px;
+}
+
+/* options */
+
+.option{
+display:block;
+background:white;
+color:#ff4d6d;
+margin:10px;
+padding:12px;
+border-radius:20px;
+}
+
+/* photos */
+
+.gallery{
+display:flex;
+overflow-x:auto;
+gap:10px;
+padding:10px;
+}
+
+.gallery img{
+height:200px;
+border-radius:15px;
+}
+
+/* typing */
+
+#typing{
+min-height:120px;
+}
+
+/* counter */
+
+#counter{
+font-size:18px;
+margin-top:10px;
+}
+
+/* fireworks */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+<!-- INTRO -->
+
+<div class="section" id="intro">
+
+<div class="card">
+
+<h1 class="title">Happy Birthday</h1>
+
+<h2>Surya 🤎😽</h2>
+
+<p>
+
+This is a small journey of our love story.
+
+Let's see how well you remember us.
+
+</p>
+
+<button onclick="start()">Start With Music 🎵</button>
+
+<div id="counter"></div>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div class="section" id="quiz" style="display:none">
+
+<div class="card">
+
+<h2 id="question"></h2>
+
+<div id="answers"></div>
+
+</div>
+
+</div>
+
+<!-- MEMORY -->
+
+<div class="section" id="memory" style="display:none">
+
+<div class="card">
+
+<h2>Unlocked Memory ❤️</h2>
+
+<img id="memoryPhoto" width="250">
+
+<button onclick="nextQuestion()">Next</button>
+
+</div>
+
+</div>
+
+<!-- GALLERY -->
+
+<div class="section" id="gallery" style="display:none">
+
+<div class="card">
+
+<h2>Our Memories 📸</h2>
+
+<div class="gallery">
+
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
+<img src="photo4.jpg">
+<img src="photo5.jpg">
+<img src="photo6.jpg">
+<img src="photo7.jpg">
+<img src="photo8.jpg">
+<img src="photo9.jpg">
+<img src="photo10.jpg">
+<img src="photo11.jpg">
+<img src="photo12.jpg">
+
+</div>
+
+<button onclick="showLetter()">Read My Letter ❤️</button>
+
+</div>
+
+</div>
+
+<!-- LETTER -->
+
+<div class="section" id="letter" style="display:none">
+
+<div class="card">
+
+<h2 class="title">For You</h2>
+
+<p id="typing"></p>
+
+<button onclick="secret()">Open Secret 💌</button>
+
+</div>
+
+</div>
+
+<!-- SECRET -->
+
+<div class="section" id="secret" style="display:none">
+
+<div class="card">
+
+<h2>Only For You ❤️</h2>
+
+<p>
+
+No matter how many fights we had…
+
+no matter how many years passed…
+
+my heart always found its way back to you.
+
+Happy Birthday Thangamayil 🎂
+
+Forever yours,  
+Monica ❤️
+
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+/* LOVE COUNTER */
+
+function updateCounter(){
+
+const start=new Date("2017-08-15");
+
+const now=new Date();
+
+const diff=now-start;
+
+const days=Math.floor(diff/(1000*60*60*24));
+
+document.getElementById("counter").innerText=
+"Loving you for "+days+" days ❤️";
+
+}
+
+updateCounter();
+
+/* QUIZ */
+
+const questions=[
+
+{
+q:"When did our love story begin?",
+a:["15 August 2017","2018","2016"],
+correct:0,
+photo:"photo1.jpg"
+},
+
+{
+q:"Where did you propose?",
+a:["Near my school","At home","On phone"],
+correct:0,
+photo:"photo2.jpg"
+},
+
+{
+q:"Who always accepts me back?",
+a:["Thangamayil ❤️","Friends","Nobody"],
+correct:0,
+photo:"photo3.jpg"
+},
+
+{
+q:"Who loves Monica the most?",
+a:["Thangamayil ❤️","Everyone","Nobody"],
+correct:0,
+photo:"photo4.jpg"
+},
+
+{
+q:"Our love survived what?",
+a:["Distance","Time","Everything"],
+correct:2
+},
+
+{
+q:"Final question... Do you love me?",
+a:["Yes ❤️","Always ❤️","Forever ❤️"],
+correct:2
+}
+
+];
+
+let current=0;
+
+/* START */
+
+function start(){
+
+document.getElementById("music").play();
+
+document.getElementById("intro").style.display="none";
+document.getElementById("quiz").style.display="flex";
+
+showQuestion();
+
+}
+
+/* SHOW QUESTION */
+
+function showQuestion(){
+
+let q=questions[current];
+
+document.getElementById("question").innerText=q.q;
+
+let html="";
+
+q.a.forEach((opt,i)=>{
+
+html+=`<button class="option" onclick="answer(${i})">${opt}</button>`;
+
+});
+
+document.getElementById("answers").innerHTML=html;
+
+}
+
+/* ANSWER */
+
+function answer(i){
+
+if(i===questions[current].correct){
+
+heartExplosion();
+
+if(questions[current].photo){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("memory").style.display="flex";
+
+document.getElementById("memoryPhoto").src=
+questions[current].photo;
+
+return;
+
+}
+
+nextQuestion();
+
+}
+
+else{
+
+alert("Try again ❤️");
+
+}
+
+}
+
+/* NEXT */
+
+function nextQuestion(){
+
+current++;
+
+document.getElementById("memory").style.display="none";
+
+if(current>=questions.length){
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("gallery").style.display="flex";
+
+/* automatically move screen to gallery */
+
+document.getElementById("gallery").scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+else{
+
+document.getElementById("quiz").style.display="flex";
+showQuestion();
+
+}
+
+}
+
+/* HEART EXPLOSION */
+
+function heartExplosion(){
+
+for(let i=0;i<20;i++){
+
+let h=document.createElement("div");
+
+h.innerHTML="❤️";
+
+h.style.position="fixed";
+
+h.style.left=Math.random()*100+"vw";
+
+h.style.top=Math.random()*100+"vh";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),800);
+
+}
+
+}
+
+/* LETTER */
+
+function showLetter(){
+
+document.getElementById("gallery").style.display="none";
+document.getElementById("letter").style.display="flex";
+
+typeLetter();
+
+}
+
+/* TYPING */
+
+let text="From the day you proposed near my school in 2017, my life changed. Even when we stopped talking for months or years, somehow our love always found its way back.";
+
+let i=0;
+
+function typeLetter(){
+
+if(i<text.length){
+
+document.getElementById("typing").innerHTML+=text.charAt(i);
+
+i++;
+
+setTimeout(typeLetter,40);
+
+}
+
+}
+
+/* SECRET */
+
+function secret(){
+
+document.getElementById("letter").style.display="none";
+document.getElementById("secret").style.display="flex";
+
+startFireworks();
+
+}
+
+/* FIREWORKS */
+
+const canvas=document.getElementById("fireworks");
+
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function startFireworks(){
+
+setInterval(()=>{
+
+let x=Math.random()*canvas.width;
+
+let y=Math.random()*canvas.height/2;
+
+for(let i=0;i<50;i++){
+
+particles.push({
+
+x:x,
+y:y,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
+life:60
+
+});
+
+}
+
+},800);
+
+}
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+ctx.fillStyle="rgba(0,0,0,0.1)";
+
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,i)=>{
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+p.life--;
+
+ctx.fillStyle="white";
+
+ctx.fillRect(p.x,p.y,2,2);
+
+if(p.life<=0) particles.splice(i,1);
+
+});
+
+}
+
+animate();
+
+</script>
+
+</body>
+
+</html>
